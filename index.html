@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#11351f" />
+  <title>Nguyễn Phương Nghi | Portfolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    :root {
+      --bg-1: #06130b;
+      --bg-2: #0a1f11;
+      --bg-3: #16351e;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-strong: rgba(255, 255, 255, 0.12);
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #f4f7ef;
+      --muted: rgba(244, 247, 239, 0.72);
+      --gold: #f4d98a;
+      --green: #7ed957;
+      --shadow: 0 24px 100px rgba(0, 0, 0, 0.36);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(126, 217, 87, 0.20), transparent 0 22%),
+        radial-gradient(circle at 82% 12%, rgba(244, 217, 138, 0.16), transparent 0 18%),
+        radial-gradient(circle at 80% 78%, rgba(126, 217, 87, 0.14), transparent 0 20%),
+        linear-gradient(145deg, var(--bg-1), var(--bg-2) 44%, var(--bg-3));
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08), transparent 0 24%),
+        radial-gradient(circle at 15% 75%, rgba(126, 217, 87, 0.10), transparent 0 18%),
+        radial-gradient(circle at 85% 60%, rgba(244, 217, 138, 0.09), transparent 0 20%);
+      filter: blur(18px);
+      opacity: 0.8;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black 46%, transparent 100%);
+      opacity: 0.12;
+      z-index: -1;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .glass-soft {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.05));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .section-shell {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .section-shell::before {
+      content: "";
+      position: absolute;
+      inset: auto 8% 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(244, 217, 138, 0.35), rgba(126, 217, 87, 0.26), transparent);
+      opacity: 0.9;
+      z-index: -1;
+    }
+
+    .hero-name {
+      letter-spacing: 0.02em;
+      text-wrap: balance;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1);
+      will-change: transform, opacity;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-line {
+      opacity: 0;
+      transform: translateY(22px);
+      filter: blur(8px);
+      animation: riseIn 1s cubic-bezier(.2,.7,.2,1) forwards;
+    }
+
+    .hero-line:nth-child(1) { animation-delay: 0.12s; }
+    .hero-line:nth-child(2) { animation-delay: 0.28s; }
+    @keyframes riseIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes floatChicken {
+      0%   { transform: translate3d(0, 0, 0) scale(0.92) rotate(-4deg); opacity: 0; }
+      18%  { opacity: 0.16; }
+      35%  { transform: translate3d(12px, -18px, 0) scale(1) rotate(2deg); opacity: 0.22; }
+      52%  { transform: translate3d(-6px, -34px, 0) scale(1.02) rotate(5deg); opacity: 0.18; }
+      72%  { transform: translate3d(-16px, -12px, 0) scale(0.98) rotate(-1deg); opacity: 0.12; }
+      100% { transform: translate3d(0, 0, 0) scale(0.92) rotate(-4deg); opacity: 0; }
+    }
+
+    .chicken-float {
+      position: absolute;
+      width: var(--size, 88px);
+      height: var(--size, 88px);
+      color: rgba(244, 217, 138, 0.9);
+      opacity: 0;
+      filter: drop-shadow(0 0 22px rgba(126, 217, 87, 0.16));
+      animation: floatChicken var(--duration, 20s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      mix-blend-mode: screen;
+    }
+
+    .chicken-float svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .profile-ring {
+      position: relative;
+      border-radius: 9999px;
+      padding: 0.45rem;
+      background: linear-gradient(135deg, rgba(126, 217, 87, 0.95), rgba(244, 217, 138, 0.92), rgba(255, 255, 255, 0.30));
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.20), 0 0 45px rgba(126, 217, 87, 0.35), 0 18px 60px rgba(0, 0, 0, 0.42);
+      transition: transform 0.45s ease, box-shadow 0.45s ease;
+    }
+
+    .profile-ring:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28), 0 0 60px rgba(244, 217, 138, 0.34), 0 24px 70px rgba(0, 0, 0, 0.5);
+    }
+
+    .profile-ring::after {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: inherit;
+      background: radial-gradient(circle, rgba(126, 217, 87, 0.20), transparent 65%);
+      filter: blur(16px);
+      z-index: -1;
+      opacity: 0.9;
+    }
+
+    .hero-image {
+      border-radius: 9999px;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+      width: min(100%, 22rem);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
+    }
+
+    .hover-lift {
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .hover-lift:hover {
+      transform: translateY(-8px);
+      border-color: rgba(244, 217, 138, 0.35);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34), 0 0 28px rgba(126, 217, 87, 0.15);
+    }
+
+    .glow-button {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #74d65b 0%, #d8b15f 55%, #f4d98a 100%);
+      color: #0b160f;
+      box-shadow: 0 10px 30px rgba(126, 217, 87, 0.28), 0 8px 36px rgba(244, 217, 138, 0.18);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+    }
+
+    .glow-button:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: brightness(1.04);
+      box-shadow: 0 14px 44px rgba(126, 217, 87, 0.36), 0 10px 38px rgba(244, 217, 138, 0.22);
+    }
+
+    .glow-button:focus-visible,
+    .focus-field:focus-visible {
+      outline: 2px solid rgba(244, 217, 138, 0.65);
+      outline-offset: 3px;
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 9999px;
+      transform: scale(0);
+      background: rgba(255, 255, 255, 0.55);
+      pointer-events: none;
+      animation: ripple 650ms ease-out;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4.2);
+        opacity: 0;
+      }
+    }
+
+    .timeline {
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      left: 1.05rem;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(244, 217, 138, 0.35), rgba(126, 217, 87, 0.50), rgba(244, 217, 138, 0.20));
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 0.45rem;
+      top: 0.45rem;
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #7ed957, #f4d98a);
+      box-shadow: 0 0 0 6px rgba(126, 217, 87, 0.08), 0 0 20px rgba(244, 217, 138, 0.18);
+    }
+
+    .chicken-chip {
+      display: grid;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, rgba(126, 217, 87, 0.18), rgba(244, 217, 138, 0.16));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--gold);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .section-kicker {
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(244, 247, 239, 0.55);
+    }
+
+    .form-field {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      color: var(--text);
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .form-field::placeholder {
+      color: rgba(244, 247, 239, 0.44);
+    }
+
+    .form-field:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(244, 217, 138, 0.42);
+      box-shadow: 0 0 0 4px rgba(126, 217, 87, 0.10);
+      outline: none;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1.25rem;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      z-index: 50;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+    <div class="chicken-float" style="top: 12%; left: 6%; --size: 92px; --duration: 22s; --delay: 0s;">
+      <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.14"/>
+        <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="currentColor" opacity="0.35"/>
+        <path d="M69 25c1.2 0 2.2 1 2.2 2.2S70.2 29.4 69 29.4s-2.2-1-2.2-2.2S67.8 25 69 25Z" fill="currentColor" opacity="0.44"/>
+        <path d="M31 55c6.8 0 12.2 5.3 12.2 12S37.8 79 31 79s-12.2-5.3-12.2-12 5.4-12 12.2-12Z" fill="currentColor" opacity="0.16"/>
+        <path d="M24 69c0 5 3.7 9 8.4 9 3 0 5.5-1.5 7-3.9M69 48c0 6.7-5.5 12-12.2 12h-8.9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.52"/>
+        <path d="M61 31.5c-2.2 0-4 1.7-4.2 3.8M34 30.5c2.2 0 4 1.7 4.2 3.8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.45"/>
+        <path d="M74 26l8 3-8 3" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+        <path d="M41 42c3.2 2.3 6.5 3.4 10 3.4 3.6 0 6.9-1.1 10.1-3.4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity="0.34"/>
+      </svg>
+    </div>
+    <div class="chicken-float" style="top: 18%; right: 10%; --size: 74px; --duration: 19s; --delay: -4s; color: rgba(126, 217, 87, 0.82);">
+      <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.15"/>
+        <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="currentColor" opacity="0.34"/>
+        <path d="M69 25c1.2 0 2.2 1 2.2 2.2S70.2 29.4 69 29.4s-2.2-1-2.2-2.2S67.8 25 69 25Z" fill="currentColor" opacity="0.44"/>
+        <path d="M24 69c0 5 3.7 9 8.4 9 3 0 5.5-1.5 7-3.9M69 48c0 6.7-5.5 12-12.2 12h-8.9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.48"/>
+        <path d="M61 31.5c-2.2 0-4 1.7-4.2 3.8M34 30.5c2.2 0 4 1.7 4.2 3.8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.38"/>
+        <path d="M74 26l8 3-8 3" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.54"/>
+      </svg>
+    </div>
+    <div class="chicken-float" style="bottom: 18%; left: 12%; --size: 68px; --duration: 24s; --delay: -9s; color: rgba(244, 217, 138, 0.86);">
+      <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.12"/>
+        <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="currentColor" opacity="0.28"/>
+        <path d="M69 25c1.2 0 2.2 1 2.2 2.2S70.2 29.4 69 29.4s-2.2-1-2.2-2.2S67.8 25 69 25Z" fill="currentColor" opacity="0.38"/>
+        <path d="M41 42c3.2 2.3 6.5 3.4 10 3.4 3.6 0 6.9-1.1 10.1-3.4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity="0.30"/>
+        <path d="M24 69c0 5 3.7 9 8.4 9 3 0 5.5-1.5 7-3.9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.42"/>
+        <path d="M74 26l8 3-8 3" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.52"/>
+      </svg>
+    </div>
+    <div class="chicken-float" style="bottom: 16%; right: 14%; --size: 58px; --duration: 17s; --delay: -6s; color: rgba(255, 255, 255, 0.55);">
+      <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.10"/>
+        <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="currentColor" opacity="0.22"/>
+        <path d="M74 26l8 3-8 3" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.48"/>
+        <path d="M24 69c0 5 3.7 9 8.4 9 3 0 5.5-1.5 7-3.9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.36"/>
+      </svg>
+    </div>
+  </div>
+
+  <main class="relative">
+    <section id="hero" class="section-shell min-h-screen flex items-center">
+      <div class="mx-auto w-full max-w-7xl px-6 py-10 sm:px-8 lg:px-10">
+        <div class="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+          <div class="space-y-8 lg:pr-6">
+            <div class="space-y-3">
+              <h1 class="hero-name text-4xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl reveal" style="transition-delay: 0.08s;">
+                Nguyễn Phương Nghi
+              </h1>
+              <p class="text-lg font-medium text-amber-100/90 sm:text-2xl reveal" style="transition-delay: 0.14s;">
+                Chăn nuôi – Thú y
+              </p>
+            </div>
+
+            <div class="max-w-2xl space-y-4 text-base leading-8 text-white/80 sm:text-lg">
+              <p class="hero-line">Nguyễn Phương Nghi là sinh viên ngành Chăn nuôi – Thú y, định hướng phát triển trong lĩnh vực thú y và quản lý chăn nuôi hiện đại.</p>
+              <p class="hero-line">Có kinh nghiệm thực tập tại các trang trại lớn, có khả năng chăm sóc, theo dõi sức khỏe vật nuôi và hỗ trợ kiểm soát dịch bệnh.</p>
+            </div>
+
+            <div class="flex flex-wrap gap-4 pt-2">
+              <a href="#lien-he" class="glow-button ripple-target inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold sm:px-7 sm:py-3.5">Liên hệ ngay</a>
+              <a href="#gioi-thieu" class="glass-soft ripple-target inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-white/25 hover:text-white sm:px-7 sm:py-3.5">Xem hồ sơ</a>
+            </div>
+          </div>
+
+          <div class="flex justify-center lg:justify-end">
+            <div class="profile-ring reveal" style="transition-delay: 0.18s;">
+              <div class="relative rounded-full bg-white/5 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.24)]">
+                <div class="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.18),transparent_35%),radial-gradient(circle_at_70%_70%,rgba(126,217,87,0.16),transparent_45%)] blur-2xl"></div>
+                <div class="relative overflow-hidden rounded-full">
+                  <div id="avatarFallback" class="absolute inset-0 grid place-items-center rounded-full bg-[linear-gradient(145deg,rgba(10,31,17,0.96),rgba(20,54,31,0.96))] text-center text-white/90">
+                    <div>
+                      <div class="text-5xl font-semibold tracking-[0.24em] text-amber-100/90">NPN</div>
+                      <div class="mt-2 text-xs uppercase tracking-[0.42em] text-white/40">Ảnh bìa</div>
+                    </div>
+                  </div>
+                  <img
+                    id="profileImage"
+                    class="hero-image relative z-10"
+                    src="https://drive.google.com/uc?export=view&id=1YK7AS8od5pYZzePVGowcyP-F_ffGs0eA"
+                    data-fallback-src="https://drive.google.com/thumbnail?id=1YK7AS8od5pYZzePVGowcyP-F_ffGs0eA&sz=w1200"
+                    alt="Ảnh đại diện Nguyễn Phương Nghi"
+                    loading="eager"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gioi-thieu" class="section-shell py-20 sm:py-24">
+      <div class="mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10">
+        <div class="reveal mx-auto max-w-4xl text-center" style="transition-delay: 0.05s;">
+          <p class="section-kicker text-xs sm:text-sm">GIỚI THIỆU</p>
+          <p class="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/75 sm:text-lg">
+            Nguyễn Phương Nghi là sinh viên ngành Chăn nuôi – Thú y, định hướng phát triển trong lĩnh vực thú y và quản lý chăn nuôi hiện đại. Có kinh nghiệm thực tập tại các trang trại lớn, có khả năng chăm sóc, theo dõi sức khỏe vật nuôi và hỗ trợ kiểm soát dịch bệnh.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="hoc-van" class="section-shell py-14 sm:py-20">
+      <div class="mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10">
+        <div class="reveal" style="transition-delay: 0.04s;">
+          <p class="section-kicker text-xs sm:text-sm">HỌC VẤN</p>
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <article class="glass-soft hover-lift rounded-3xl p-6">
+              <p class="text-sm uppercase tracking-[0.24em] text-amber-100/60">2025</p>
+              <h3 class="mt-3 text-xl font-semibold text-white">Kỹ sư Chăn nuôi – Đại học Cần Thơ (2025)</h3>
+            </article>
+            <article class="glass-soft hover-lift rounded-3xl p-6">
+              <p class="text-sm uppercase tracking-[0.24em] text-amber-100/60">2027</p>
+              <h3 class="mt-3 text-xl font-semibold text-white">Thạc sĩ Thú y – Đại học Cần Thơ (2027)</h3>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ky-nang" class="section-shell py-16 sm:py-24">
+      <div class="mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10">
+        <div class="reveal" style="transition-delay: 0.05s;">
+          <p class="section-kicker text-xs sm:text-sm">KỸ NĂNG CHUYÊN MÔN</p>
+        </div>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <article class="glass-soft hover-lift reveal rounded-3xl p-6" style="transition-delay: 0.08s;">
+            <div class="chicken-chip mb-5 text-[1.15rem]">✦</div>
+            <h3 class="text-xl font-semibold text-white">Chăm sóc vật nuôi</h3>
+            <p class="mt-3 text-sm leading-7 text-white/70">Theo dõi, hỗ trợ và duy trì trạng thái khỏe mạnh cho vật nuôi trong môi trường trại.</p>
+          </article>
+          <article class="glass-soft hover-lift reveal rounded-3xl p-6" style="transition-delay: 0.14s;">
+            <div class="chicken-chip mb-5">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 4c3.7 0 6 2.7 6 6 0 4.4-3 7.8-6 10-3-2.2-6-5.6-6-10 0-3.3 2.3-6 6-6Z" />
+                <path d="M9.5 10.3c.9-1.2 2-1.8 2.5-1.8s1.6.6 2.5 1.8" />
+                <path d="M12 7.2v7.8" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white">Kiểm soát dịch bệnh</h3>
+            <p class="mt-3 text-sm leading-7 text-white/70">Nhận biết sớm dấu hiệu bất thường và phối hợp quy trình phòng ngừa đúng chuẩn.</p>
+          </article>
+          <article class="glass-soft hover-lift reveal rounded-3xl p-6" style="transition-delay: 0.20s;">
+            <div class="chicken-chip mb-5">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9h12M6 13h12M6 17h8" />
+                <path d="M8 5h8l2 2v12H8z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white">Làm việc nhóm</h3>
+            <p class="mt-3 text-sm leading-7 text-white/70">Phối hợp hiệu quả với đội ngũ trại và các bộ phận liên quan để vận hành ổn định.</p>
+          </article>
+          <article class="glass-soft hover-lift reveal rounded-3xl p-6" style="transition-delay: 0.26s;">
+            <div class="chicken-chip mb-5">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 18V6l7-2 6 2 3-1v12l-3 1-6-2-7 2Z" />
+                <path d="M11 4v12" />
+                <path d="M17 6v12" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white">Kỹ năng thực hành trại</h3>
+            <p class="mt-3 text-sm leading-7 text-white/70">Nắm quy trình chăm sóc, vệ sinh, quản lý đàn và thao tác thực tế trong môi trường chăn nuôi.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="kinh-nghiem" class="section-shell py-16 sm:py-24">
+      <div class="mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10">
+        <div class="reveal" style="transition-delay: 0.05s;">
+          <p class="section-kicker text-xs sm:text-sm">QUÁ TRÌNH ĐÀO TẠO</p>
+        </div>
+
+        <div class="timeline mt-8 space-y-5">
+          <article class="glass-soft hover-lift reveal relative ml-8 rounded-3xl p-6 sm:ml-10" style="transition-delay: 0.10s;">
+            <span class="timeline-dot"></span>
+            <div class="flex flex-wrap items-center gap-3">
+              <h3 class="text-xl font-semibold text-white">Trại heo CJ – Bình Phước</h3>
+              <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.26em] text-amber-100/60">2023</span>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm leading-7 text-white/70">
+              <li>• Theo dõi sức khỏe đàn</li>
+              <li>• Hỗ trợ tiêm phòng</li>
+              <li>• Vệ sinh chuồng trại</li>
+            </ul>
+          </article>
+
+          <article class="glass-soft hover-lift reveal relative ml-8 rounded-3xl p-6 sm:ml-10" style="transition-delay: 0.18s;">
+            <span class="timeline-dot"></span>
+            <div class="flex flex-wrap items-center gap-3">
+              <h3 class="text-xl font-semibold text-white">Trại gà CJ – Đồng Nai</h3>
+              <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.26em] text-amber-100/60">2024</span>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm leading-7 text-white/70">
+              <li>• Quản lý đàn gà</li>
+              <li>• Theo dõi môi trường nuôi</li>
+              <li>• Phát hiện dấu hiệu bệnh</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="so-thich" class="section-shell py-16 sm:py-24">
+      <div class="mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10">
+        <div class="reveal" style="transition-delay: 0.05s;">
+          <p class="section-kicker text-xs sm:text-sm">SỞ THÍCH</p>
+        </div>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <article class="glass-soft hover-lift reveal rounded-3xl p-5" style="transition-delay: 0.08s;">
+            <div class="chicken-chip mb-4">
+              <svg viewBox="0 0 96 96" class="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.95"/>
+                <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="#fff" opacity="0.95"/>
+                <path d="M74 26l8 3-8 3" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">Nghe nhạc</h3>
+          </article>
+          <article class="glass-soft hover-lift reveal rounded-3xl p-5" style="transition-delay: 0.14s;">
+            <div class="chicken-chip mb-4">
+              <svg viewBox="0 0 96 96" class="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.95"/>
+                <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="#fff" opacity="0.95"/>
+                <path d="M74 26l8 3-8 3" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">Tập gym</h3>
+          </article>
+          <article class="glass-soft hover-lift reveal rounded-3xl p-5" style="transition-delay: 0.20s;">
+            <div class="chicken-chip mb-4">
+              <svg viewBox="0 0 96 96" class="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.95"/>
+                <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="#fff" opacity="0.95"/>
+                <path d="M74 26l8 3-8 3" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">Nấu ăn</h3>
+          </article>
+          <article class="glass-soft hover-lift reveal rounded-3xl p-5" style="transition-delay: 0.26s;">
+            <div class="chicken-chip mb-4">
+              <svg viewBox="0 0 96 96" class="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M51 16c7 0 12 5 12 11 0 2-.5 4-1.4 5.7 5.9 1.2 10.4 5.8 10.4 11.8 0 3.7-1.5 7-4 9.4-2.2 2.1-5.2 3.4-8.6 3.4H39.4c-10 0-18.1-8.2-18.1-18.3 0-8.7 6.1-15.9 14.3-17.8C36.7 20.3 43.1 16 51 16Z" fill="currentColor" opacity="0.95"/>
+                <path d="M59 19c2.6 0 4.7 2.1 4.7 4.7S61.6 28.4 59 28.4 54.3 26.3 54.3 23.7 56.4 19 59 19Z" fill="#fff" opacity="0.95"/>
+                <path d="M74 26l8 3-8 3" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">Chăm sóc vật nuôi</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="lien-he" class="section-shell py-16 sm:py-24">
+      <div class="mx-auto w-full max-w-4xl px-6 sm:px-8 lg:px-10">
+        <div class="reveal text-center" style="transition-delay: 0.05s;">
+          <p class="section-kicker text-xs sm:text-sm">LIÊN HỆ</p>
+        </div>
+
+        <form id="contactForm" class="glass mt-10 rounded-[2rem] p-6 sm:p-8 lg:p-10 reveal" style="transition-delay: 0.12s;">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-2 block text-sm text-white/70">Họ tên</span>
+              <input class="focus-field form-field w-full rounded-2xl px-4 py-3 text-sm placeholder:text-white/40" type="text" name="name" placeholder="Nhập họ tên của bạn" required />
+            </label>
+            <label class="block">
+              <span class="mb-2 block text-sm text-white/70">Email</span>
+              <input class="focus-field form-field w-full rounded-2xl px-4 py-3 text-sm placeholder:text-white/40" type="email" name="email" placeholder="Nhập email liên hệ" required />
+            </label>
+          </div>
+          <label class="mt-4 block">
+            <span class="mb-2 block text-sm text-white/70">Nội dung</span>
+            <textarea class="focus-field form-field min-h-[180px] w-full rounded-3xl px-4 py-3 text-sm leading-7 placeholder:text-white/40" name="message" placeholder="Viết lời nhắn của bạn" required></textarea>
+          </label>
+          <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="space-y-1 text-sm text-white/70">
+              <p><span class="text-white/90">Email:</span> <a class="underline decoration-white/30 underline-offset-4 transition hover:text-amber-100" href="mailto:20072003nguyennghi@gmail.com">20072003nguyennghi@gmail.com</a></p>
+              <p><span class="text-white/90">SĐT:</span> <a class="underline decoration-white/30 underline-offset-4 transition hover:text-amber-100" href="tel:+84826964898">+84 826964898</a></p>
+            </div>
+            <button type="submit" class="glow-button ripple-target inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold">Gửi liên hệ</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast glass-soft rounded-full px-5 py-3 text-sm text-white/90">Đã sẵn sàng nhận liên hệ.</div>
+
+  <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="icon-leaf" viewBox="0 0 24 24">
+        <path d="M19 5c-7.2.2-13 6.2-13 13.5 0 1.1.1 2.1.4 3.1 1-.2 2-.4 3.1-.4C16.8 21.2 22.8 15.4 23 8.2 23.1 6.1 22 5 19 5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M9 17c2.8-3.9 6.6-6.2 11-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const revealTargets = document.querySelectorAll('.reveal');
+    if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18 });
+      revealTargets.forEach((el) => io.observe(el));
+    } else {
+      revealTargets.forEach((el) => el.classList.add('visible'));
+    }
+
+    const heroTargets = document.querySelectorAll('.hero-line, .hero-name');
+    if (prefersReducedMotion) {
+      heroTargets.forEach((el) => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.style.filter = 'none';
+      });
+    }
+
+    const profileImage = document.getElementById('profileImage');
+    const avatarFallback = document.getElementById('avatarFallback');
+    profileImage.addEventListener('load', () => {
+      avatarFallback.style.opacity = '0';
+    });
+    profileImage.addEventListener('error', () => {
+      if (profileImage.dataset.fallbackSrc && profileImage.src !== profileImage.dataset.fallbackSrc) {
+        profileImage.src = profileImage.dataset.fallbackSrc;
+        return;
+      }
+      profileImage.classList.add('hidden');
+      avatarFallback.style.opacity = '1';
+    });
+    if (profileImage.complete && profileImage.naturalWidth > 0) {
+      avatarFallback.style.opacity = '0';
+    }
+
+    const rippleTargets = document.querySelectorAll('.ripple-target');
+    rippleTargets.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const rect = button.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.width = ripple.style.height = `${Math.max(rect.width, rect.height)}px`;
+        ripple.style.left = `${event.clientX - rect.left - Math.max(rect.width, rect.height) / 2}px`;
+        ripple.style.top = `${event.clientY - rect.top - Math.max(rect.width, rect.height) / 2}px`;
+        button.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 700);
+      });
+    });
+
+    const toast = document.getElementById('toast');
+    const contactForm = document.getElementById('contactForm');
+    let toastTimer;
+
+    const showToast = (message) => {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    };
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      showToast('Cảm ơn bạn. Liên hệ đã được ghi nhận.');
+      contactForm.reset();
+    });
+
+    window.addEventListener('load', () => {
+      showToast('Portfolio đã sẵn sàng.');
+    }, { once: true });
+  </script>
+</body>
+</html>
